@@ -74,6 +74,8 @@ class auditd(
     String                              $service_restart      = "/sbin/service auditd restart",
 ) {
 
+  $audispd_plugins_package = 'audispd-plugins'
+
   # Install package
   package { $package_name:
     ensure => 'present',
@@ -81,15 +83,17 @@ class auditd(
 
   # Configure required config files
   file { [$config_file, $audispd_config_file]:
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0640',
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0640',
+    require => Package[$audispd_plugins_package],
   }
 
   fm_prepend { $config_file:
-    ensure => present,
-    data   => $header
+    ensure  => present,
+    data    => $header,
+    require => Package[$audispd_plugins_package],
   }
 
   $settings.each |$key, $value| {
@@ -124,6 +128,7 @@ class auditd(
       mode    => '0750',
       recurse => true,
       purge   => true,
+      require => Package[$audispd_plugins_package],
     }
   }
 
