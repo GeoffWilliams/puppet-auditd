@@ -74,8 +74,6 @@ class auditd(
     String                              $service_restart      = "/sbin/service auditd restart",
 ) {
 
-  $audispd_plugins_package = 'audispd-plugins'
-
   # Install package
   package { $package_name:
     ensure => 'present',
@@ -87,13 +85,13 @@ class auditd(
     owner   => 'root',
     group   => 'root',
     mode    => '0640',
-    require => Package[$audispd_plugins_package],
+    require => Package[$package_name],
   }
 
   fm_prepend { $config_file:
     ensure  => present,
     data    => $header,
-    require => Package[$audispd_plugins_package],
+    require => Package[$package_name],
   }
 
   $settings.each |$key, $value| {
@@ -104,6 +102,7 @@ class auditd(
       match             => "^\s*${key}\s*=",
       insert_if_missing => true,
       insert_at         => 'bottom',
+      require           => Package[$package_name],
       notify            => Service[$service_name],
     }
   }
@@ -116,6 +115,7 @@ class auditd(
       match             => "^\s*${key}\s*=",
       insert_if_missing => true,
       insert_at         => 'bottom',
+      require           => Package[$package_name],
       notify            => Service[$service_name],
     }
   }
@@ -128,7 +128,7 @@ class auditd(
       mode    => '0750',
       recurse => true,
       purge   => true,
-      require => Package[$audispd_plugins_package],
+      require => Package[$package_name],
     }
   }
 
@@ -139,6 +139,7 @@ class auditd(
       group   => 'root',
       mode    => '0640',
       content => "${header}\n${opts['content']}",
+      require => Package[$package_name],
       notify  => Service[$service_name],
     }
   }
@@ -150,6 +151,7 @@ class auditd(
     provider => 'redhat',
     enable   => $service_enable,
     restart  => $service_restart,
+    require  => Package[$package_name],
   }
 
 }

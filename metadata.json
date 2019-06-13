@@ -5,18 +5,17 @@
   "summary": "Puppet Auditd module",
   "license": "Apache-2.0",
   "source": "https://github.com/GeoffWilliams/puppet-auditd.git",
-  "project_page": null,
+  "project_page": "https://github.com/GeoffWilliams/puppet-auditd",
   "issues_url": "https://api.github.com/repos/GeoffWilliams/puppet-auditd/issues{/number}",
   "dependencies": [
-    {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0"
-    },
     {
       "name": "geoffwilliams-filemagic",
       "version_requirement": "0.5.2"
     }
   ],
   "data_provider": null,
-  "project_url": "https://github.com/GeoffWilliams/puppet-auditd.git"
+  "project_url": "https://github.com/GeoffWilliams/puppet-auditd.git",
+  "pdk-version": "1.10.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git#1.10.0",
+  "template-ref": "1.10.0-0-gbba9ac3"
 }
